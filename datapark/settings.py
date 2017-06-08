@@ -14,12 +14,18 @@ BOT_NAME = 'datapark'
 SPIDER_MODULES = ['datapark.spiders']
 NEWSPIDER_MODULE = 'datapark.spiders'
 
+# Mongodb settings
+MONGO_HOST = '127.0.0.1'
+MONGO_PORT = 27017
+KAFKA_URI = '192.168.31.61:9092'
+# TOPIC_BRAND = 'datapark_brand'
+TOPIC_BRAND = 'test01'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'datapark (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

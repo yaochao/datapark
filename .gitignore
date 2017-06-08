@@ -57,3 +57,6 @@ target/
 
 # python virtualenv
 venv/
+
+# sqlite files
+data.sqlite
