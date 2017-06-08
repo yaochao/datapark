@@ -16,9 +16,8 @@ NEWSPIDER_MODULE = 'datapark.spiders'
 
 # Mongodb settings
 # MONGO_HOST = '127.0.0.1'
-MONGO_HOST = '192.168.39.26'
 MONGO_PORT = 27017
-KAFKA_URI = '192.168.31.61:9092'
+KAFKA_URI = '192.168.39.60:9092'
 # TOPIC_BRAND = 'datapark_brand'
 TOPIC_BRAND = 'test01'
 
