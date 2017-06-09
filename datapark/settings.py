@@ -15,11 +15,13 @@ SPIDER_MODULES = ['datapark.spiders']
 NEWSPIDER_MODULE = 'datapark.spiders'
 
 # Mongodb settings
-# MONGO_HOST = '127.0.0.1'
+MONGO_HOST = '127.0.0.1'
 MONGO_PORT = 27017
-KAFKA_URI = '192.168.39.60:9092'
-# TOPIC_BRAND = 'datapark_brand'
+KAFKA_URI = '192.168.39.61:9092'
 TOPIC_BRAND = 'test01'
+
+# 下载器超时时间
+DOWNLOAD_TIMEOUT = 5
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'datapark (+http://www.yourdomain.com)'

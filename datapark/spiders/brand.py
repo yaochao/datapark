@@ -56,13 +56,13 @@ class SocialbetaSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="content"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="content"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -120,16 +120,16 @@ class QdailySpider(scrapy.Spider):
         item = response.meta['item']
         # 文章的布局分为两种情况，根据文章中的元素做出解析(xpath)的选择。
         if response.xpath('//div[@class="main long-article"]'):
-            content_text = response.xpath('//div[@class="main long-article"]').xpath('string(.)').extract_first()
+            content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
             content_html = response.xpath('//div[@class="main long-article"]').extract_first()
         else:
-            content_text = response.xpath('//div[@class="article-detail-bd"]').xpath('string(.)').extract_first()
+            content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
             content_html = response.xpath('//div[@class="article-detail-bd"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -183,13 +183,13 @@ class JiemianSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="article-main"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="article-main"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -243,13 +243,13 @@ class ToodaylabSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="post-content"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="post-content"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -303,13 +303,13 @@ class MadisonboomSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="slide-info"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="slide-info"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -363,13 +363,13 @@ class IwebadSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="news_ckkk "]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="news_ckkk "]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -423,16 +423,16 @@ class AdquanSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="deta_inner"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="deta_inner"]').extract_first()
         if not content_text:
-            content_text = response.xpath('//div[@class="con_Text"]').xpath('string(.)').extract_first()
+            content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
             content_html = response.xpath('//div[@class="con_Text"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -486,13 +486,13 @@ class DigitalingSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@id="article_con"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@id="article_con"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -547,13 +547,13 @@ class IresearchSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="m-article"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="m-article"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
-        item['type'] = 'brand'
+        item['type'] = 'commerce'
         yield item
 
 
@@ -608,9 +608,9 @@ class EbrunSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="clearfix cmsDiv"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="clearfix cmsDiv"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
@@ -625,7 +625,7 @@ class Eshow365Spider(scrapy.Spider):
     custom_settings = {
         'ITEM_PIPELINES': {
             'datapark.pipelines.BrandMongoPipeline': 300,
-            # 'datapark.pipelines.BrandKafkaPipeline': 301,
+            'datapark.pipelines.BrandKafkaPipeline': 301,
         }
     }
 
@@ -669,9 +669,9 @@ class Eshow365Spider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//div[@class="zhxxcontent"]').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="zhxxcontent"]').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name
@@ -732,9 +732,9 @@ class Events_ireasearchSpider(scrapy.Spider):
 
     def parse_post(self, response):
         item = response.meta['item']
-        content_text = response.xpath('//html').xpath('string(.)').extract_first()
+        content_text = ''.join(response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//html').extract_first()
-        item['content_text'] = content_text.strip() if content_text else None
+        item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
         item['site_name'] = self.name

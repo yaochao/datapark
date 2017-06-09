@@ -30,14 +30,16 @@ class BrandMongoPipeline(object):
         self.client.close()
 
 
+
 class BrandKafkaPipeline(object):
     def __init__(self):
-        self.producer = KafkaProducer(bootstrap_servers=settings['KAFKA_URI'])
+        self.producer = KafkaProducer(bootstrap_servers=settings['KAFKA_URI'], value_serializer= lambda v: v.encode('utf-8'))
 
     def process_item(self, item, spider):
         topic = settings['TOPIC_BRAND']
         item = dict(item)
-        json_item = json.dumps(item)
+        json_item = json.dumps(item, ensure_ascii=False)
+        print type(json_item), 'json_item type'
         self.producer.send(topic, json_item)
         self.producer.flush()
         return item
