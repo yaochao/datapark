@@ -39,7 +39,6 @@ class BrandKafkaPipeline(object):
         topic = settings['TOPIC_BRAND']
         item = dict(item)
         json_item = json.dumps(item, ensure_ascii=False)
-        print type(json_item), 'json_item type'
         self.producer.send(topic, json_item)
         self.producer.flush()
         return item
