@@ -7,7 +7,6 @@ import scrapy
 from scrapy import Request, Selector
 
 
-####################################  commercespider    ###########################
 class Kr36Spider(scrapy.Spider):
     name = 'kr36'
     allowed_domains = ['36kr.com']

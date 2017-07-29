@@ -58,7 +58,8 @@ class SocialbetaSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="content"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="content"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="content"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -123,12 +124,14 @@ class QdailySpider(scrapy.Spider):
         # 文章的布局分为两种情况，根据文章中的元素做出解析(xpath)的选择。
         if response.xpath('//div[@class="main long-article"]'):
             content_text = ''.join(
-                response.xpath('//div[@class="main long-article"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+                response.xpath(
+                    '//div[@class="main long-article"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
             content_html = response.xpath('//div[@class="main long-article"]').extract_first()
         else:
             content_text = ''.join(
-                response.xpath('//div[@class="article-detail-bd"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
-            content_html = response.xpath('//div[@class="article-detail-bd"]').extract_first()
+                response.xpath(
+                    '//div[@class="detail"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            content_html = response.xpath('//div[@class="detail"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
@@ -190,7 +193,8 @@ class JiemianSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="article-main"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="article-main"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="article-main"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -252,7 +256,8 @@ class ToodaylabSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="post-content"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="post-content"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="post-content"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -288,7 +293,7 @@ class MadisonboomSpider(scrapy.Spider):
         posts = response.xpath('//*[@id="gallery_list_elements"]/li')
         for post in posts:
             post_url = response.urljoin(post.xpath('h3/a/@href').extract_first())
-            post_title = post.xpath('h3/p/a/text()').extract_first()
+            post_title = post.xpath('h3/a/@title').extract_first()
             item = {
                 '_id': post_url,
                 'post_url': post_url,
@@ -314,7 +319,8 @@ class MadisonboomSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="slide-info"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="slide-info"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="slide-info"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -376,7 +382,8 @@ class IwebadSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="news_ckkk "]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="news_ckkk "]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="news_ckkk "]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -438,11 +445,13 @@ class AdquanSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="deta_inner"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="deta_inner"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="deta_inner"]').extract_first()
         if not content_text:
             content_text = ''.join(
-                response.xpath('//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+                response.xpath(
+                    '//div[@class="con_Text"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
             content_html = response.xpath('//div[@class="con_Text"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -504,7 +513,8 @@ class DigitalingSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@id="article_con"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@id="article_con"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@id="article_con"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -566,7 +576,8 @@ class IresearchSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="m-article"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="m-article"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="m-article"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
@@ -574,8 +585,7 @@ class IresearchSpider(scrapy.Spider):
         item['site_name'] = self.name
         item['type'] = 'commerce'
         item['module'] = 'brand'
-        print item['content_text'], 'content_text'
-        print item['content_html']
+        yield item
 
 
 class EbrunSpider(scrapy.Spider):
@@ -629,7 +639,8 @@ class EbrunSpider(scrapy.Spider):
     def parse_post(self, response):
         item = response.meta['item']
         content_text = ''.join(
-            response.xpath('//div[@class="clearfix cmsDiv"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
+            response.xpath(
+                '//div[@class="clearfix cmsDiv"]//text()[normalize-space() and not(ancestor::script | ancestor::style)]').extract())
         content_html = response.xpath('//div[@class="clearfix cmsDiv"]').extract_first()
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
