@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
-import sqlite3
 import time
 
 import scrapy
 from scrapy import Request, Selector
+
+from ..misc.name_map import name_map
+from ..misc.sqlite_tools import get_then_change_latest_url
 
 
 class Kr36Spider(scrapy.Spider):
@@ -17,17 +19,6 @@ class Kr36Spider(scrapy.Spider):
             'datapark.pipelines.BrandKafkaPipeline': 301,
         }
     }
-
-    # 自定义属性
-    first_url = ''
-    connection = sqlite3.connect('data.sqlite')
-    cursor = connection.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS %s (latest_url TEXT)' % name)
-    connection.commit()
-    cursor.execute('SELECT latest_url FROM %s' % name)
-    latest_url = cursor.fetchone()
-    if latest_url:
-        latest_url = latest_url[0]
 
     def parse(self, response):
         script_text = response.xpath('//*[@id="app"]/following::*[1]/text()').extract_first()
@@ -42,6 +33,11 @@ class Kr36Spider(scrapy.Spider):
     def parse_ajax(self, response):
         res_json = json.loads(response.text)
         if res_json['code'] == 0:
+
+            # 本次最新的文章的url
+            first_url = ''
+            # 上一次的最新的文章的url
+            latest_url = ''
             posts = res_json['data']['items']
             for post in posts:
                 post_url = 'http://36kr.com/p/{}.html'.format(post['id'])
@@ -53,15 +49,12 @@ class Kr36Spider(scrapy.Spider):
                 }
 
                 # 把第一条数据作为最新的数据，存储到sqlite中
-                if not self.first_url:
-                    self.first_url = post_url
-                    self.cursor.execute('DELETE FROM %s' % self.name)
-                    self.cursor.execute('INSERT INTO %s (latest_url) VALUES ("%s")' % (self.name, self.first_url))
-                    self.connection.commit()
+                if not first_url:
+                    first_url = post_url
+                    latest_url = get_then_change_latest_url(self.name, first_url)
                 # 从sqlite中取出上一次最新的数据，与本次的数据做对比，如果相同则认为文章抓到了上次已经抓过的数据，如果不同则认为文章还没有抓完
-                if post_url == self.latest_url:
-                    print '%s - 爬到了上次爬到的地方' % self.name
-                    self.connection.close()
+                if post_url == latest_url:
+                    print u'%s - 爬到了上次爬到的地方' % self.name
                     return
 
                 request = scrapy.Request(url=post_url, callback=self.parse_post)
@@ -81,7 +74,7 @@ class Kr36Spider(scrapy.Spider):
         item['content_text'] = content_text.replace('\r', '').replace('\n', '').replace('\t', '')
         item['content_html'] = content_html
         item['crawl_time'] = int(time.time())
-        item['site_name'] = self.name
+        item['site_name'] = name_map[self.name]
         item['type'] = 'commerce'
         item['module'] = 'product'
         yield item

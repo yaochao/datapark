@@ -50,7 +50,9 @@ class DataparkSpiderMiddleware(object):
 
         # Must return only requests (not items).
         for r in start_requests:
+            r.headers['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
             yield r
+
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)

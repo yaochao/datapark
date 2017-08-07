@@ -17,13 +17,15 @@ process = CrawlerProcess(get_project_settings())
 # process.crawl('digitaling')
 # process.crawl('iresearch')
 # process.crawl('ebrun')
-# process.crawl('eshow365')
-# process.crawl('events_ireasearch')
-# process.crawl('kr36')
-# process.start()
-
+process.crawl('eshow365')
+process.crawl('events_ireasearch')
+process.crawl('kr36')
+# process.crawl('huxiu')
+# process.crawl('cyzone')
+# process.crawl('common')
 
 # 执行所有的spider
-for spider in process.spider_loader.list():
-    process.crawl(spider)
+# for spider in process.spider_loader.list():
+#     process.crawl(spider)
+
 process.start()
