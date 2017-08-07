@@ -1,7 +1,9 @@
 asn1crypto==0.22.0
 attrs==17.2.0
 Automat==0.6.0
+certifi==2017.4.17
 cffi==1.10.0
+chardet==3.0.4
 constantly==15.1.0
 cryptography==1.9
 cssselect==1.0.1
@@ -19,9 +21,11 @@ PyDispatcher==2.0.5
 pymongo==3.4.0
 pyOpenSSL==17.0.0
 queuelib==1.4.2
+readability-lxml==0.6.2
 Scrapy==1.4.0
 service-identity==17.0.0
 six==1.10.0
 Twisted==17.1.0
+urllib3==1.21.1
 w3lib==1.17.0
 zope.interface==4.4.1
