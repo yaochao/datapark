@@ -16,7 +16,7 @@ from ..misc.sqlite_tools import get_then_change_latest_url
 class CommonSpider(scrapy.Spider):
     name = 'common'
     start_urls = common_map.keys()
-    # start_urls = ['http://www.eshow365.com/zhanhui/0-0-0-0/0/%E5%B9%BF%E5%91%8A%20%E8%90%A5%E9%94%80']
+    # start_urls = ['http://www.ikanchai.com/']
     custom_settings = {
         'ITEM_PIPELINES': {
             'datapark.pipelines.BrandMongoPipeline': 300,

@@ -17,7 +17,7 @@ class BrandMongoPipeline(object):
     def __init__(self):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         db = self.client['datapark']
-        self.collection = db['brand']
+        self.collection = db['articles']
 
     def process_item(self, item, spider):
         try:
